@@ -15,12 +15,13 @@
 	var playerImg = new Image();
 	var harmImg = new Image();
 	var benefitImg = new Image();
+	var bullet = [];
 	backgroundImg.src = "space.png";
 	playerImg.src = "spaceShip.png";
 	harmImg.src = "harm.png";
-	benefitImg.src = "benefit.png"
+	benefitImg.src = "benefit.png";
 
-    gameObjects.push({type: "player", x:30, y:c.height/2, r:15, img: playerImg, speed:8});
+    gameObjects.push({type: "player", x:10, y:c.height/2, r:15, img: playerImg, speed:8});
     gameObjects.push({type: "harm", x:100, y:75, r:20, img: harmImg, speed:1});
     gameObjects.push({type: "benefit", x:20, y:25, r:10, img: benefitImg, speed:1});
 
@@ -36,7 +37,6 @@
 			// clear canvas
 			ctx.clearRect(0,0,c.width, c.height);
 			ctx.drawImage(backgroundImg, 0, 0);
-			// draw objects
 
 			for (idx in gameObjects) {
 				g = gameObjects[idx];
@@ -45,7 +45,7 @@
 				ctx.drawImage(g.img, g.x, g.y, g.r+35, g.r+35);
 
 				if (g.type != "player") {
-				g.x -= g.speed * game.level;
+					g.x -= g.speed * game.level;
 
 				if (colliding(player,g)) {
 					if (g.type == "harm") {
@@ -60,6 +60,9 @@
 							}
 						}
 					}
+					else{
+
+					}
 					//console.log(game);
 					g.state = "collision"
 				}
@@ -70,6 +73,8 @@
 					g.state = "";
 					} 
 				}
+				movebullet();
+				drawbullet();
         	}
 
 			// draw text for Score, Level, and Lives
@@ -134,17 +139,35 @@
 			togglePause();
 		}
 		else if(e.keyCode == '32'){
-			
+			let b = {x: player.x, y: player.y + 23, speedX: 20, width: 20, height: 20};
+			//b.x += player.x;
+			b.height = 5;
+			bullet.push(b);
 		}
     }
 
-	function togglePause() {
-		if (!paused){
-			paused = true;
-		} else if (paused){
-			paused = false;
-		}
+function drawbullet() {
+	if (bullet.length)
+		for (var i = 0; i < bullet.length; i++) {
+		ctx.fillStyle = '#f00';
+		ctx.fillRect(bullet[i].x,bullet[i].y,bullet[i].width,bullet[i].height)
 	}
+}
+function movebullet() {
+	for (var i = 0; i < bullet.length; i++) {
+		bullet[i].x += bullet[i].speedX;
+	if(bullet[i].x < 0 || bullet[i].x > c.width)
+		bullet.splice(i, 1);
+	}
+}
+
+function togglePause() {
+	if (!paused){
+		paused = true;
+	} else if (paused){
+		paused = false;
+	}
+}
 	</script>
 </body>
 
