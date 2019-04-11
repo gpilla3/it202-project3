@@ -10,19 +10,18 @@
     var ctx = c.getContext("2d");
 
     var game = {score: 0, lives: 3, state: "play", level: 1};
-
     var gameObjects = [];
 
     gameObjects.push({type: "player", x:20, y:c.height/2, r:15, color:"green", speed:10});
-
     gameObjects.push({type: "harm", x:100, y:75, r:10, color:"red", speed:1});
-
     gameObjects.push({type: "benefit", x:20, y:25, r:20, color:"yellow", speed:1});
 
     var player = gameObjects[0];
 
     var backgroundImg = new Image();
     backgroundImg.src = "space.png";
+
+	var playerImg = new Image();
 
     ctx.font = "30px Comic Sans MS";
     ctx.fillStyle = "red";
@@ -73,10 +72,10 @@
         }
       }
 
-	  // draw text
-      ctx.fillText("Score: " + game.score, 78, 30);
-	  ctx.fillText("Level: " + game.level, 320, 30);
-      ctx.fillText("Lives: " + game.lives, 78, 490);
+	  // draw text for Score, Level, and Lives
+      ctx.fillText("Score: " + game.score, 95, 30);
+	  ctx.fillText("Level: " + game.level, 300, 30);
+      ctx.fillText("Lives: " + game.lives, 95, 490);
 
       // next frame
       if (game.lives > 0) {
