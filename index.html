@@ -73,8 +73,10 @@
         }
       }
 
-      // draw text
-      ctx.fillText("Score: " + game.score + " - Lives: " + game.lives, c.width/2, 30);
+	  // draw text
+      ctx.fillText("Score: " + game.score, 78, 30);
+	  ctx.fillText("Level: " + game.level, 320, 30);
+      ctx.fillText("Lives: " + game.lives, 78, 490);
 
       // next frame
       if (game.lives > 0) {
@@ -84,7 +86,6 @@
       }
 
     }
-
 
     function gameOver() {
       ctx.clearRect(0,0,c.width, c.height);
