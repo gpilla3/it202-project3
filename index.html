@@ -12,16 +12,22 @@
     var game = {score: 0, lives: 3, state: "play", level: 1};
     var gameObjects = [];
 
-    gameObjects.push({type: "player", x:20, y:c.height/2, r:15, color:"green", speed:10});
-    gameObjects.push({type: "harm", x:100, y:75, r:10, color:"red", speed:1});
-    gameObjects.push({type: "benefit", x:20, y:25, r:20, color:"yellow", speed:1});
+	var backgroundImg = new Image();
+	var playerImg = new Image();
+	var playerImg1 = new Image();
+	var playerImg2 = new Image();
+	var harmImg = new Image();
+	var benefitImg = new Image();
+	backgroundImg.src = "space.png";
+	playerImg.src = "spaceShip.png";
+	harmImg.src = "harm.png";
+	benefitImg.src = "benefit.png"
+
+    gameObjects.push({type: "player", x:30, y:c.height/2, r:15, img: playerImg, speed:8});
+    gameObjects.push({type: "harm", x:100, y:75, r:20, img: harmImg, speed:1});
+    gameObjects.push({type: "benefit", x:20, y:25, r:10, img: benefitImg, speed:1});
 
     var player = gameObjects[0];
-
-    var backgroundImg = new Image();
-    backgroundImg.src = "space.png";
-
-	var playerImg = new Image();
 
     ctx.font = "30px Comic Sans MS";
     ctx.fillStyle = "red";
@@ -36,10 +42,10 @@
       for (idx in gameObjects) {
         g = gameObjects[idx];
         ctx.beginPath();
-        ctx.arc(g.x, g.y, g.r, 0, 2 * Math.PI);
-        //ctx.stroke();
-        ctx.fillStyle = g.color;
-        ctx.fill();
+        // ctx.arc(g.x, g.y, g.r, 0, 2 * Math.PI);
+        // ctx.stroke();
+        ctx.closePath();
+        ctx.drawImage(g.img, g.x-15, g.y-20, g.r+35, g.r+35);
 
         if (g.type != "player") {
 
@@ -54,13 +60,12 @@
               if (game.score % 100 == 0) {
                 game.level ++;
                 if(game.level % 2 ==0){
-                    gameObjects.push({type: "harm", x:100, y:75, r:10, color:"red", speed:1});
+                    gameObjects.push({type: "harm", x:100, y:75, r:10, img: harmImg, speed:1});
                 }
               }
 
             }
-            console.log(game);
-
+            //console.log(game);
             g.state = "collision"
           }
 
@@ -83,18 +88,15 @@
       } else {
         gameOver();
       }
-
     }
 
     function gameOver() {
       ctx.clearRect(0,0,c.width, c.height);
       ctx.drawImage(backgroundImg, 0, 0);
       ctx.fillText("Game Over", c.width/2, c.height/2);
-
     }
 
     window.requestAnimationFrame (draw);
-
 
     function colliding (circle1, circle2) {
       var result = false;
