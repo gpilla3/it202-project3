@@ -8,14 +8,10 @@
     <script>
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
-
     var game = {score: 0, lives: 3, state: "play", level: 1};
     var gameObjects = [];
-
 	var backgroundImg = new Image();
 	var playerImg = new Image();
-	var playerImg1 = new Image();
-	var playerImg2 = new Image();
 	var harmImg = new Image();
 	var benefitImg = new Image();
 	backgroundImg.src = "space.png";
@@ -42,8 +38,6 @@
       for (idx in gameObjects) {
         g = gameObjects[idx];
         ctx.beginPath();
-        // ctx.arc(g.x, g.y, g.r, 0, 2 * Math.PI);
-        // ctx.stroke();
         ctx.closePath();
         ctx.drawImage(g.img, g.x-15, g.y-20, g.r+35, g.r+35);
 
@@ -119,7 +113,6 @@
 
         e = e || window.event;
 
-        // console.log(e);
         if (e.keyCode == '38' || e.keyCode == '87') {
             // up arrow
             player.y -= player.speed * 2;
