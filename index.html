@@ -47,31 +47,28 @@
 				if (g.type != "player") {
 					g.x -= g.speed * game.level;
 
-				if (colliding(player,g)) {
-					if (g.type == "harm") {
-						game.lives --;
-					} 
-					else if (g.type == "benefit"){
-						game.score += 100;
-						if (game.score % 100 == 0) {
-							game.level ++;
-							if(game.level % 2 ==0){
-								gameObjects.push({type: "harm", x:100, y:75, r:20, img: harmImg, speed:1});
+					if (colliding(player,g)) {
+						if (g.type == "harm") {
+							game.lives --;
+						} 
+						else if (g.type == "benefit"){
+							game.score += 100;
+							if (game.score % 100 == 0) {
+								game.level ++;
+								if(game.level % 2 ==0){
+									gameObjects.push({type: "harm", x:100, y:75, r:20, img: harmImg, speed:1});
+								}
 							}
 						}
+						//console.log(game);
+						g.state = "collision"
 					}
-					else{
 
+					if ( (g.x + g.r < 0)  || g.state == "collision") {
+						g.x = c.width + g.r;
+						g.y = Math.random() * (c.height - 0) + 0;
+						g.state = "";
 					}
-					//console.log(game);
-					g.state = "collision"
-				}
-
-				if ( (g.x + g.r < 0)  || g.state == "collision") {
-					g.x = c.width + g.r;
-					g.y = Math.random() * (c.height - 0) + 0;
-					g.state = "";
-					} 
 				}
 				movebullet();
 				drawbullet();
@@ -97,10 +94,9 @@
     }
 
     window.requestAnimationFrame (draw);
-
+	
     function colliding (circle1, circle2) {
       var result = false;
-
       var dx = circle1.x - circle2.x;
       var dy = circle1.y - circle2.y;
       var distance = Math.sqrt(dx * dx + dy * dy);
@@ -109,7 +105,6 @@
           // collision detected!
           result = true;
       }
-
       return result;
     }
 
@@ -146,28 +141,29 @@
 		}
     }
 
-function drawbullet() {
-	if (bullet.length)
-		for (var i = 0; i < bullet.length; i++) {
-		ctx.fillStyle = '#f00';
-		ctx.fillRect(bullet[i].x,bullet[i].y,bullet[i].width,bullet[i].height)
+	function drawbullet() {
+		if (bullet.length)
+			for (var i = 0; i < bullet.length; i++) {
+				ctx.fillStyle = '#f00';
+				ctx.fillRect(bullet[i].x,bullet[i].y,bullet[i].width,bullet[i].height);
+		}
 	}
-}
-function movebullet() {
-	for (var i = 0; i < bullet.length; i++) {
-		bullet[i].x += bullet[i].speedX;
-	if(bullet[i].x < 0 || bullet[i].x > c.width)
-		bullet.splice(i, 1);
-	}
-}
 
-function togglePause() {
-	if (!paused){
-		paused = true;
-	} else if (paused){
-		paused = false;
+	function movebullet() {
+		for (var i = 0; i < bullet.length; i++) {
+			bullet[i].x += bullet[i].speedX;
+		if(bullet[i].x < 0 || bullet[i].x > c.width)
+			bullet.splice(i, 1);
+		}
 	}
-}
+
+	function togglePause() {
+		if (!paused){
+			paused = true;
+		} else if (paused){
+			paused = false;
+		}
+	}
 	</script>
 </body>
 
